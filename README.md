@@ -28,6 +28,20 @@ Allowed methods are the basic CRUD methods `GET, POST, UPDATE, DELETE, PUT`
         }
     );
 
+Going all crazy on custom request methods/?
+
+    $router->match(
+        'custom_method',
+        '/hello/:name',
+        [
+            new \App\Middleware\Authentication()
+        ],
+        function($req, $res, $par)
+        {
+            return 'hi, '.$par['name'].'<br />Welcome to Racoon';
+        }
+    );
+
 ## Middleware
 
 

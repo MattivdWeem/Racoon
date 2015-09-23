@@ -68,7 +68,7 @@ class Router{
 
         $params = [];
 
-        $uri = explode('/',$this->getParams()['server']['REQUEST_URI']);
+        $uri = explode('/',rtrim($this->getParams()['server']['REQUEST_URI'], '/'));
         $match = explode('/',$request);
 
         if (count($uri) !== count($match)) {
@@ -78,7 +78,12 @@ class Router{
         foreach($match as $key => $m){
             if (strpos($m,':') !== false){
                 $params[str_replace(':','',$m)] = $uri[$key];
+                continue;
             }
+            if ($m === $uri[$key] || $m === '*'){
+                continue;
+            }
+            return false;
         }
 
         return $params;
@@ -167,6 +172,18 @@ class Router{
      */
     public function delete($request, array $middleware, $callback ){
         return $this->route('DELETE',$request, $middleware, $callback);
+    }
+
+
+    /**
+     * @param $method
+     * @param $request
+     * @param array $middleware
+     * @param $callback
+     * @return bool
+     */
+    public function match($method, $request, array $middleware, $callback ){
+        return $this->route($method ,$request, $middleware, $callback);
     }
 
 
