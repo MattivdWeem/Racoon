@@ -63,7 +63,7 @@ class Router{
 
 
         $runtime = $this->getRunTime();
-        $runtime[] = $this->handleCallback($callback,$middlewareResult,$params);
+        $runtime[] = [$this,'handleCallback',[$callback,$middlewareResult,$params]];
         $this->setRunTime($runtime);
         return true;
 
@@ -75,7 +75,7 @@ class Router{
      * @param $params
      * @return mixed
      */
-    private function handleCallback($callback, $middlewareResult, $params){
+    public function handleCallback($callback, $middlewareResult, $params){
 
         if (is_string($callback)){
             return $this->handleControllerCall($callback, $middlewareResult, $params);

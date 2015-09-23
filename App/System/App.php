@@ -11,7 +11,9 @@ class App {
 
         foreach((array) $this->getRuntime()->getNodeList()[0] as $node){
             foreach($node as $content){
-                $this->render($content);
+                $this->render(
+                    $content[0]->$content[1]($content[2][0],$content[2][1],$content[2][2])
+                );
             }
         }
 

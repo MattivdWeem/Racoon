@@ -8,10 +8,10 @@ use App\System\Controllers\Stump;
 class HomeController extends Stump implements ControllerInterface{
 
     public function display(){
-        return 'Smoked Potatoes';
+        return '<h1>Smoked Potatoes</h1>';
     }
 
     public function displayAnother(){
-        return 'Another';
+        return '<h2>Another</h2>';
     }
 }
