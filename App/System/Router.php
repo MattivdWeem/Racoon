@@ -43,27 +43,72 @@ class Router{
      * @throws \Exception
      */
     private function route($type, $request, $middleware, $callback){
+
         if (!$this->checkMethod($type)){
             return false;
         }
 
-        // match request here
 
         if (!is_array($middlewareResult = $this->handleMiddleware($middleware))){
             return false;
         }
 
+
         if (!$params = $this->matchRoute($request)){
             return false;
         }
+        if (!is_array($params)){
+            $params = [];
+        }
+
 
         $runtime = $this->getRunTime();
-        $runtime[] = $callback($middlewareResult[0],$middlewareResult[1],array_merge([$middlewareResult[2]],$params));
+        $runtime[] = $this->handleCallback($callback,$middlewareResult,$params);
         $this->setRunTime($runtime);
         return true;
 
     }
 
+    /**
+     * @param $callback
+     * @param $middlewareResult
+     * @param $params
+     * @return mixed
+     */
+    private function handleCallback($callback, $middlewareResult, $params){
+
+        if (is_string($callback)){
+            return $this->handleControllerCall($callback, $middlewareResult, $params);
+        }
+        return $callback($middlewareResult[0],$middlewareResult[1],array_merge([$middlewareResult[2]],$params));
+
+    }
+
+    /**
+     * @param $callback
+     * @param $middlewareResult
+     * @param $params
+     * @return mixed
+     */
+    private function handleControllerCall($callback, $middlewareResult, $params){
+
+        $call = explode(':',str_replace('Controller','',$callback));
+
+        if(!is_array($call)){
+            $call = [$call,$call];
+        }
+
+
+        $class = '\App\Controllers\\'.$call[0].'Controller';
+        $cl = new $class();
+        return $cl->$call[1]($middlewareResult[0],$middlewareResult[1],array_merge([$middlewareResult[2]],$params));
+
+    }
+
+    /**
+     * @param $request
+     * @return array|bool
+     */
     private function matchRoute($request){
 
         $params = [];
@@ -75,17 +120,20 @@ class Router{
             return false;
         }
 
+
         foreach($match as $key => $m){
             if (strpos($m,':') !== false){
                 $params[str_replace(':','',$m)] = $uri[$key];
                 continue;
             }
-            if ($m === $uri[$key] || $m === '*'){
+            if ($m == $uri[$key] || $m == '*'){
+
                 continue;
             }
             return false;
         }
 
+        if (!$params){$params = true;}
         return $params;
 
 

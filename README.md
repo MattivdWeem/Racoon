@@ -42,6 +42,13 @@ Going all crazy on custom request methods/?
         }
     );
 
+
+Or even better, Define route results by passing an controller into the callback
+
+    $router->get('/hello',[], 'Home:display');
+
+This will be mapped against `\App\Controllers\HomeController()->Display($req,$res,$params);`
+
 ## Middleware
 
 
