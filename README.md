@@ -49,6 +49,10 @@ Or even better, Define route results by passing an controller into the callback
 
 This will be mapped against `\App\Controllers\HomeController()->Display($req,$res,$params);`
 
+
+new routing files can be added inside `\app\Routes`, as long as the file ends with `Routes.php` it will be included
+for example `AdminRoutes.php` `DefaultRoutes.php` `MagicRoutes.php`
+
 ## Middleware
 
 
