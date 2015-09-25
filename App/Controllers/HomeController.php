@@ -12,6 +12,7 @@ class HomeController extends Stump implements ControllerInterface{
     }
 
     public function displayAnother(){
-        return '<h2>Another</h2>';
+
+
     }
 }

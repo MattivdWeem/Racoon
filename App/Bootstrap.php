@@ -22,6 +22,5 @@ $routerNode->write($router->getRunTime());
 
 $runtime->push($routerNode);
 
-
 $app->load($runtime);
 $app->run();

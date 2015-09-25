@@ -2,9 +2,12 @@
 
 namespace App\System;
 
+use App\System\Runtime\NodeList;
+
 class App {
 
     private $runtime;
+    private $depList = [];
 
     public function run($config = [])
     {
@@ -16,6 +19,7 @@ class App {
                 );
             }
         }
+
 
     }
 
@@ -31,7 +35,7 @@ class App {
      * @param mixed $runtime
      */
     public function load(
-        \App\System\Runtime\NodeList $runtime
+        NodeList $runtime
     )
     {
         $this->runtime = $runtime;
@@ -40,5 +44,11 @@ class App {
     public function render($content){
         echo $content;
     }
+
+
+    public function add($name, $recourse){
+        $this->depList[$name] = $recourse;
+    }
+
 
 }

@@ -1,5 +1,5 @@
 <?php
-$router->get('/hello',[], 'Home:display');
+//$router->get('/hello',[], 'Home:display');
 $router->get('/hello',[], 'Home:displayAnother');
 
 
@@ -10,7 +10,7 @@ $router->get(
     ],
     function($req, $res, $par)
     {
-        return 'hi, '.$par['name'].'<br />Welcome to Atmosphere';
+        return 'hi, '.$par['name'].'<br />Welcome to Racoon';
     }
 );
 
